@@ -101,6 +101,10 @@ def words_with_vowels(text):
             if is_vowel(word[j]):
                 has_vowel = True
                 break
+        if has_vowel:
+            result.append(word)
+
+    return result
 
 def most_vowels_word(text):
     words = words_with_vowels(text)
@@ -187,47 +191,47 @@ def get_avg_increase(temp_readings):
 def main():
     #-YOUR ASSERTION TESTS FOR YOUR FUNCTIONS STARTS HERE (TODO)
 
-    count_consonants("ApPLeS!!!")
-count_consonants("a-131")
+    assert count_consonants("ApPLeS!!!") == 4
+    assert count_consonants("a-131") == 0
 
-get_even_sum([-1, 0, 1, 2, -2])
-get_even_sum([1, 2, 3, 4, 5, 6])
+    assert get_even_sum([-1, 0, 1, 2, -2]) == 0
+    assert get_even_sum([1, 2, 3, 4, 5, 6]) == 12
 
-get_second('mouse, cat, dog, pig, lion')
-get_second('apple,       pear   , banana')
+    assert get_second('mouse, cat, dog, pig, lion') == 'cat'
+    assert get_second('apple,       pear   , banana') == 'pear'
 
-my_list = ['hello', 'world']
-replace_vowels_in_list(my_list)
-# my_list becomes ['hqllq', 'wqrld']
+    test_list = ['hello', 'world']
+    replace_vowels_in_list(test_list)
+    assert test_list == ['hqllq', 'wqrld']
 
-is_rotation("waterbottle", "erbottlewat")  # True
-is_rotation("hello", "lohel")              # True
-is_rotation("hello", "ohlle")              # False
+    assert is_rotation("waterbottle", "erbottlewat") == True
+    assert is_rotation("hello", "lohel") == True
+    assert is_rotation("hello", "ohlle") == False
 
-words_with_vowels("Hello, World! Are you okay Ms.?")
-words_with_vowels("Try my crypt")
-most_vowels_word("This is the ultimate example string")
+    assert words_with_vowels("Hello, World! Are you okay Ms.?") == ["Hello", "World", "Are", "you", "okay"]
+    assert words_with_vowels("Try my crypt") == []
 
-normalize_list([10, 20, 30, 40, 50])
-normalize_list([5, 5, 5, 5])
+    assert most_vowels_word("This is the ultimate example string") == "ultimate"
 
-student_data = [
-    ("Joseph", [98, 56, 0, 99]),
-    ("Elijah", [89, 78, 100, 81]),
-    ("Jeremiah", [89, 78, 89])
-]
-get_top_student(student_data)
+    assert normalize_list([10, 20, 30, 40, 50]) == [0.0, 0.25, 0.5, 0.75, 1.0]
+    assert normalize_list([5, 5, 5, 5]) == [0.5, 0.5, 0.5, 0.5]
 
-temp_readings = (
-    ("08:00", 15.0),
-    ("10:00", 16.5),
-    ("12:00", 17.2),
-    ("14:00", 16.8),
-    ("16:00", 18.3),
-    ("18:00", 18.0)
-)
+    student_data = [
+        ("Joseph", [98, 56, 0, 99]),
+        ("Elijah", [89, 78, 100, 81]),
+        ("Jeremiah", [89, 78, 89])
+    ]
+    assert get_top_student(student_data) == "Elijah"
 
-get_avg_increase(temp_readings)
+    temp_readings = (
+        ("08:00", 15.0),
+        ("10:00", 16.5),
+        ("12:00", 17.2),
+        ("14:00", 16.8),
+        ("16:00", 18.3),
+        ("18:00", 18.0)
+    )
+    assert abs(get_avg_increase(temp_readings) - 1.2333333333333334) < 0.0001
 
 
 if __name__ == "__main__":
