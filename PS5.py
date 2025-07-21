@@ -25,31 +25,42 @@ def invert_dict(d):
 #Part 1.2
 def char_frequency(s):
     freq = {}
-    s = s.lower()
     for i in range(len(s)):
         ch = s[i]
+
+        # Convert uppercase to lowercase manually
+        if ch >= 'A' and ch <= 'Z':
+            ch = chr(ord(ch) + 32)
+
+        # Accept only lowercase letters
         if ch >= 'a' and ch <= 'z':
             if ch in freq:
                 freq[ch] = freq.get(ch) + 1
             else:
                 freq[ch] = 1
+
     return freq
+
 #Part 1.3
 def find_missing_pangram_chars(s):
     all_letters = "abcdefghijklmnopqrstuvwxyz"
-    s = s.lower()
     found = {}
 
     for i in range(len(s)):
         ch = s[i]
+
+        if ch >= 'A' and ch <= 'Z':
+            ch = chr(ord(ch) + 32)
+
         if ch >= 'a' and ch <= 'z':
             if ch not in found:
                 found[ch] = True
 
     missing = []
     for i in range(len(all_letters)):
-        if all_letters[i] not in found:
-            missing.append(all_letters[i])
+        ch = all_letters[i]
+        if ch not in found:
+            missing.append(ch)
 
     return missing
 
@@ -58,11 +69,10 @@ def are_anagrams(s1, s2):
     freq1 = {}
     freq2 = {}
 
-    s1 = s1.lower()
-    s2 = s2.lower()
-
     for i in range(len(s1)):
         ch = s1[i]
+        if ch >= 'A' and ch <= 'Z':
+            ch = chr(ord(ch) + 32)
         if ch >= 'a' and ch <= 'z':
             if ch in freq1:
                 freq1[ch] = freq1.get(ch) + 1
@@ -71,22 +81,25 @@ def are_anagrams(s1, s2):
 
     for i in range(len(s2)):
         ch = s2[i]
+        if ch >= 'A' and ch <= 'Z':
+            ch = chr(ord(ch) + 32)
         if ch >= 'a' and ch <= 'z':
             if ch in freq2:
                 freq2[ch] = freq2.get(ch) + 1
             else:
                 freq2[ch] = 1
 
-    keys1 = freq1.keys()
-    keys2 = freq2.keys()
+    keys1 = list(freq1.keys())
+    keys2 = list(freq2.keys())
 
     if len(keys1) != len(keys2):
         return False
 
-    key_list1 = list(keys1)
-    for i in range(len(key_list1)):
-        key = key_list1[i]
-        if key not in freq2 or freq1.get(key) != freq2.get(key):
+    for i in range(len(keys1)):
+        k = keys1[i]
+        if k not in freq2:
+            return False
+        if freq1.get(k) != freq2.get(k):
             return False
 
     return True
