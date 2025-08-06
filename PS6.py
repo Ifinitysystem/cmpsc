@@ -26,14 +26,19 @@ def sum_of_columns(filename):
     with open(filename, 'r') as file:
         for line in file:
             row = line.strip().split(',')
-            data.append([float(num) for num in row])
+            converted_row = []
+            for num in row:
+                converted_row.append(float(num))
+            data.append(converted_row)
 
     max_cols = 0
     for row in data:
         if len(row) > max_cols:
             max_cols = len(row)
 
-    col_sums = [0] * max_cols
+    col_sums = []
+    for i in range(max_cols):
+        col_sums.append(0)
 
     for row in data:
         for i in range(len(row)):
@@ -50,18 +55,25 @@ def is_magic_square(filename):
     with open(filename, 'r') as file:
         for line in file:
             row = line.strip().split(',')
-            square.append([int(num) for num in row])
+            int_row = []
+            for num in row:
+                int_row.append(int(num))
+            square.append(int_row)
 
     n = len(square)
-
     for row in square:
         if len(row) != n:
             return False
 
-    magic_sum = sum(square[0])
+    magic_sum = 0
+    for i in range(len(square[0])):
+        magic_sum += square[0][i]
 
     for row in square:
-        if sum(row) != magic_sum:
+        row_sum = 0
+        for val in row:
+            row_sum += val
+        if row_sum != magic_sum:
             return False
 
     for col in range(n):
@@ -71,10 +83,13 @@ def is_magic_square(filename):
         if col_sum != magic_sum:
             return False
 
-    if sum(square[i][i] for i in range(n)) != magic_sum:
-        return False
+    diag1 = 0
+    diag2 = 0
+    for i in range(n):
+        diag1 += square[i][i]
+        diag2 += square[i][n - 1 - i]
 
-    if sum(square[i][n - 1 - i] for i in range(n)) != magic_sum:
+    if diag1 != magic_sum or diag2 != magic_sum:
         return False
 
     return True
@@ -86,11 +101,17 @@ def buy_ticket(filename, seat):
         for line in file:
             seats.append(line.strip().split())
 
-    row_letter = seat[0].upper()
-    row_index = ord(row_letter) - ord('A')
+    row_char = seat[0]
+    if 'a' <= row_char <= 'z':
+        row_index = ord(row_char) - ord('a')
+    else:
+        row_index = ord(row_char) - ord('A')
+
     col_index = int(seat[1:]) - 1
 
-    if row_index >= len(seats) or col_index >= len(seats[row_index]):
+    if row_index >= len(seats):
+        return False
+    if col_index >= len(seats[row_index]):
         return False
 
     if seats[row_index][col_index] != 'O':
